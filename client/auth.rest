@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:3000
+
+### Login
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "wallSt",
+  "password": "123456"
+}

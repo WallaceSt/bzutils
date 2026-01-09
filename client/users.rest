@@ -1,0 +1,42 @@
+@baseUrl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2NzkyNTAxNCwiZXhwIjoxNzY3OTI4NjE0fQ.5m7vBEB-ZuqFZBDnHRg8idLc2hqqxD5XP8LPvDlTPR8
+
+### Creates a new User
+
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+  "username": "wallSt21",
+  "email": "user@user1.com",
+  "password": "123456"
+}
+
+
+### Lists users
+
+GET {{baseUrl}}/user
+Authorization: Bearer {{token}}
+
+
+### Reads a user
+
+GET {{baseUrl}}/user/2
+Authorization: Bearer {{token}}
+
+
+### Creates a new User
+
+PATCH {{baseUrl}}/user/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "role": "frontdesk"
+}
+
+
+### Deletes a user
+
+DELETE  {{baseUrl}}/user/4
+Authorization: Bearer {{token}}
