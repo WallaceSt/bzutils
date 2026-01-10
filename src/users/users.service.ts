@@ -16,7 +16,6 @@ export class UsersService {
   private readonly saltRounds = 10;
 
   /**
-   *
    * @param userRepository access to User database
    */
   constructor(

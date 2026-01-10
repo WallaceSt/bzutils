@@ -37,7 +37,7 @@ export class UsersController {
   @Get(':id')
   @UseGuards(AuthGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
