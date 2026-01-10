@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { Category } from 'src/categories/entities/category.entity';
+import { User } from 'src/users/entities/users.entity';
+import { CategoriesModule } from 'src/categories/categories.module';
 
 @Module({
   imports: [
@@ -14,12 +17,13 @@ import { AuthModule } from 'src/auth/auth.module';
       username: 'user',
       password: 'user',
       database: 'bzutils',
-      // entities: [User],
-      autoLoadEntities: true,
+      entities: [User, Category],
+      // autoLoadEntities: true,
       synchronize: true, // shoud not be used in production
     }),
     UsersModule,
     AuthModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
