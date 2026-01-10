@@ -1,8 +1,8 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3000/auth
 
 ### Login
 
-POST {{baseUrl}}/auth/login
+POST {{baseUrl}}/login
 Content-Type: application/json
 
 {

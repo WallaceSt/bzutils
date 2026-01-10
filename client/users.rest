@@ -1,33 +1,33 @@
-@baseUrl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2NzkyNTAxNCwiZXhwIjoxNzY3OTI4NjE0fQ.5m7vBEB-ZuqFZBDnHRg8idLc2hqqxD5XP8LPvDlTPR8
+@baseUrl = http://localhost:3000/user
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA0MjYwMiwiZXhwIjoxNzY4MDQ2MjAyfQ.ne0bxdQ9HyCdtJrg4RVycJ1ksAEXMjkaK5jlxfsoFRs
 
 ### Creates a new User
 
-POST {{baseUrl}}/user
+POST {{baseUrl}}
 Content-Type: application/json
 
 {
-  "username": "wallSt21",
-  "email": "user@user1.com",
+  "username": "wallSt",
+  "email": "wallacycleyton@gmail.com",
   "password": "123456"
 }
 
 
 ### Lists users
 
-GET {{baseUrl}}/user
+GET {{baseUrl}}
 Authorization: Bearer {{token}}
 
 
 ### Reads a user
 
-GET {{baseUrl}}/user/2
+GET {{baseUrl}}/1
 Authorization: Bearer {{token}}
 
 
-### Creates a new User
+### Updates a User
 
-PATCH {{baseUrl}}/user/2
+PATCH {{baseUrl}}/1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -38,5 +38,5 @@ Authorization: Bearer {{token}}
 
 ### Deletes a user
 
-DELETE  {{baseUrl}}/user/4
+DELETE  {{baseUrl}}/4
 Authorization: Bearer {{token}}
