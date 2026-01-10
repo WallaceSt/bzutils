@@ -18,6 +18,8 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user/get-user.decorator';
 import type { IAuthPayload } from 'src/auth/interfaces/auth-payload/auth-payload.interface';
+import { Roles } from 'src/auth/decorators/roles/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 
 @Controller('categories')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -59,8 +61,9 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
-  remove(@Param('id', ParseIntPipe) id: number, @GetUser() user: IAuthPayload) {
-    return this.categoriesService.remove(id, user);
+  @Roles('admin')
+  @UseGuards(AuthGuard, RolesGuard)
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.categoriesService.remove(id);
   }
 }

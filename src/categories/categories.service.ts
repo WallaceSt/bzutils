@@ -80,10 +80,9 @@ export class CategoriesService {
     return await this.categoryRepository.save(category);
   }
 
-  async remove(id: number, user: IAuthPayload) {
+  async remove(id: number) {
     const category = await this.categoryRepository.findOneBy({
       id: id,
-      user: { id: user.sub },
     });
 
     if (!category) throw new NotFoundException('Not Found');
