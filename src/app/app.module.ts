@@ -7,6 +7,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/users.entity';
 import { CategoriesModule } from 'src/categories/categories.module';
+import { Product } from 'src/products/entities/product.entity';
+import { ProductsModule } from 'src/products/products.module';
 
 @Module({
   imports: [
@@ -17,13 +19,13 @@ import { CategoriesModule } from 'src/categories/categories.module';
       username: 'user',
       password: 'user',
       database: 'bzutils',
-      entities: [User, Category],
-      // autoLoadEntities: true,
+      entities: [User, Category, Product],
       synchronize: true, // shoud not be used in production
     }),
     UsersModule,
     AuthModule,
     CategoriesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

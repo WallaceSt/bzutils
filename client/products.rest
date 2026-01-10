@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:3000/products
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA3MTg3MiwiZXhwIjoxNzY4MDc1NDcyfQ.FCgYGwpcVEkeNkZxWXlTW1O1DFjKFRXEjsICz2lHn98
+
+
+### Creates a new product
+
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Laranja",
+  "package": "kilo",
+  "category": 1
+}
+
+
+### Lists products
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### Reads a product
+
+GET {{baseUrl}}/3
+Authorization: Bearer {{token}}
+
+
+### Updates a product
+
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "package": "kilo"
+}
+
+
+### Deletes a product
+
+DELETE  {{baseUrl}}/3
+Authorization: Bearer {{token}}
