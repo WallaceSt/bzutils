@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/categories
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA2MDcyOSwiZXhwIjoxNzY4MDY0MzI5fQ.7ZRxiJZdnE37u32f0LmVg86tO01nq8bMljDd_xkPX9k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA3MTg3MiwiZXhwIjoxNzY4MDc1NDcyfQ.FCgYGwpcVEkeNkZxWXlTW1O1DFjKFRXEjsICz2lHn98
 
 ### Creates a new Category
 
@@ -37,5 +37,5 @@ Authorization: Bearer {{token}}
 
 ### Deletes a category
 
-DELETE  {{baseUrl}}/4
+DELETE  {{baseUrl}}/3
 Authorization: Bearer {{token}}

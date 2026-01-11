@@ -9,6 +9,8 @@ import { User } from 'src/users/entities/users.entity';
 import { CategoriesModule } from 'src/categories/categories.module';
 import { Product } from 'src/products/entities/product.entity';
 import { ProductsModule } from 'src/products/products.module';
+import { Period } from 'src/periods/entities/period.entity';
+import { PeriodsModule } from 'src/periods/periods.module';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { ProductsModule } from 'src/products/products.module';
       username: 'user',
       password: 'user',
       database: 'bzutils',
-      entities: [User, Category, Product],
+      entities: [User, Category, Product, Period],
       synchronize: true, // shoud not be used in production
     }),
     UsersModule,
     AuthModule,
     CategoriesModule,
     ProductsModule,
+    PeriodsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
