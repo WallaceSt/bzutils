@@ -22,12 +22,12 @@ import { Roles } from 'src/auth/decorators/roles/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
 
 @Controller('categories')
+@UseGuards(AuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
   create(
     @Body() createCategoryDto: CreateCategoryDto,
     @GetUser() user: IAuthPayload,
@@ -36,13 +36,11 @@ export class CategoriesController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
   findAll(@GetUser() user: IAuthPayload) {
     return this.categoriesService.findAll(user);
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)
   findOne(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: IAuthPayload,
@@ -51,7 +49,6 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -62,7 +59,7 @@ export class CategoriesController {
 
   @Delete(':id')
   @Roles('admin')
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.remove(id);
   }
