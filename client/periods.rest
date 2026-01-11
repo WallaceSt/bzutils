@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:3000/periods
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA5MjYzNSwiZXhwIjoxNzY4MDk2MjM1fQ.Ns4whUY3KDpmIqufbKPCzJK8KMBXdnN3cXFBfKXbhLk
+
+
+### Creates a new period
+
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "validFrom": "2026-02-01",
+  "validTo": "2026-02-15"
+}
+
+
+### Lists periods
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### Reads a period
+
+GET {{baseUrl}}/3
+Authorization: Bearer {{token}}
+
+
+### Updates a period
+
+PATCH {{baseUrl}}/7
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "validFrom": "2026-01-16",
+  "validTo": "2026-01-31"
+}
+
+
+### Deletes a period
+
+DELETE  {{baseUrl}}/7
+Authorization: Bearer {{token}}

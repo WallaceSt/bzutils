@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Category } from 'src/categories/entities/category.entity';
+import { Period } from 'src/periods/entities/period.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -32,4 +33,7 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
+
+  @OneToMany(() => Period, (period) => period.user)
+  periods: Period[];
 }
