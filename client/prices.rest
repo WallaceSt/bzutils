@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:3000/prices
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODI1MTYyNiwiZXhwIjoxNzY4MjU1MjI2fQ.8V8XulW685b0iiUoKpSHdvfgqbJFmajE_MnhzcWCrRU
+
+
+### Creates a new price
+
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currency": 8.99,
+  "product": 4,
+  "period": 6
+}
+
+
+### Lists prices
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### Reads a price
+
+GET {{baseUrl}}/1
+Authorization: Bearer {{token}}
+
+
+### Updates a price
+
+PATCH {{baseUrl}}/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "currency": 10.99
+}
+
+
+### Deletes a price
+
+DELETE  {{baseUrl}}/2
+Authorization: Bearer {{token}}

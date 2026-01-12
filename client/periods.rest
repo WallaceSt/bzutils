@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:3000/periods
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODA5MjYzNSwiZXhwIjoxNzY4MDk2MjM1fQ.Ns4whUY3KDpmIqufbKPCzJK8KMBXdnN3cXFBfKXbhLk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODI0Njc3NiwiZXhwIjoxNzY4MjUwMzc2fQ.iIi0Mj3j5nyZOHPmqqjnGVuHEmh5-cGhcMwKRtm7_9w
+
 
 
 ### Creates a new period
