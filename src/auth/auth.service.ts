@@ -22,21 +22,28 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
+    // Select user
     const user =
       await this.userService.findByUsernameAndSelectPassword(username);
 
-    const isMatch = await bcrypt.compare(password, user?.password || '');
+    // Verify password
+    const passwordMatches = await bcrypt.compare(
+      password,
+      user?.password || '',
+    );
 
-    if (!isMatch) {
+    if (!passwordMatches) {
       throw new UnauthorizedException();
     }
 
+    // Create payload
     const payload: IAuthPayload = {
       sub: user.id,
       username: user.username,
       role: user.role,
     };
 
+    // Return access token
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

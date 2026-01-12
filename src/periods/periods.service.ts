@@ -19,12 +19,14 @@ export class PeriodsService {
   ) {}
 
   async create(createPeriodDto: CreatePeriodDto, user: IAuthPayload) {
+    // Verify if start date is not afted end date
     const { validFrom, validTo } = createPeriodDto;
 
     if (new Date(validFrom) > new Date(validTo)) {
       throw new ConflictException('Dates are misconfigured');
     }
 
+    // Verify if the start or end date are not overlapping others
     const overlappingPeriod = await this.periodRepository.findOne({
       where: [
         {
@@ -40,15 +42,18 @@ export class PeriodsService {
         'The period date is overlapping another period.',
       );
 
+    // Create a new period
     const newPeriod = this.periodRepository.create({
       ...createPeriodDto,
       user: { id: user.sub } as User,
     });
 
+    // Return the new period
     return await this.periodRepository.save(newPeriod);
   }
 
   async findAll(user: IAuthPayload) {
+    // Send list of period for signed user
     return await this.periodRepository.find({
       where: {
         user: { id: user.sub },
@@ -58,6 +63,7 @@ export class PeriodsService {
   }
 
   async findOne(id: number, user: IAuthPayload) {
+    // Verify if period exists for the signed user
     const found = await this.periodRepository.findOneBy({
       id: id,
       user: { id: user.sub },
@@ -65,6 +71,7 @@ export class PeriodsService {
 
     if (!found) throw new NotFoundException('Not found');
 
+    // Return the period
     return found;
   }
 
@@ -73,6 +80,7 @@ export class PeriodsService {
     updatePeriodDto: UpdatePeriodDto,
     user: IAuthPayload,
   ) {
+    // Verify if signed user is the owner of the selected period
     const period = await this.periodRepository.findOneBy({
       id: id,
       user: { id: user.sub },
@@ -81,6 +89,7 @@ export class PeriodsService {
 
     if (!period) throw new NotFoundException('Not found');
 
+    // Verify if start date is not after end date
     const newValidFrom = updatePeriodDto.validFrom ?? period.validFrom;
     const newValidTo = updatePeriodDto.validTo ?? period.validTo;
 
@@ -88,6 +97,7 @@ export class PeriodsService {
       throw new ConflictException('Dates are misconfigured');
     }
 
+    // Verify if start and end date are not overlapping others
     const overlappingPeriod = await this.periodRepository.manager
       .createQueryBuilder(Period, 'period')
       .where('period.userId = :userId', { userId: user.sub })
@@ -103,21 +113,26 @@ export class PeriodsService {
         'The period date is overlapping another period.',
       );
 
+    // Alters the selected period
     this.periodRepository.merge(period, updatePeriodDto);
     console.log(period);
 
+    // Return the altered period
     return await this.periodRepository.save(period);
   }
 
   async remove(id: number) {
+    // Select the period to remove
     const period = await this.periodRepository.findOneBy({
       id: id,
     });
 
     if (!period) throw new NotFoundException('Not Found');
 
+    // Removes the period
     await this.periodRepository.remove(period);
 
+    // Return a success message
     return { message: 'Pediod deleted successfully' };
   }
 }

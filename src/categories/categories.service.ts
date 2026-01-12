@@ -16,11 +16,10 @@ export class CategoriesService {
   constructor(
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto, user: IAuthPayload) {
+    // Test if category already exists
     const exists = await this.categoryRepository.findOneBy({
       title: createCategoryDto.title,
       user: { id: user.sub },
@@ -28,15 +27,18 @@ export class CategoriesService {
 
     if (exists) throw new ConflictException('Category already exists');
 
+    // Creates a new category
     const newCategory = this.categoryRepository.create({
       ...createCategoryDto,
       user: { id: user.sub } as User,
     });
 
+    // Returns new category
     return await this.categoryRepository.save(newCategory);
   }
 
   async findAll(user: IAuthPayload) {
+    // Returns signed user categories
     return await this.categoryRepository.find({
       where: {
         user: { id: user.sub },
@@ -46,14 +48,16 @@ export class CategoriesService {
   }
 
   async findOne(id: number, user: IAuthPayload) {
-    const found = await this.categoryRepository.findOneBy({
+    // Test the category and its owner
+    const foundCategoryByOwner = await this.categoryRepository.findOneBy({
       id: id,
       user: { id: user.sub },
     });
 
-    if (!found) throw new NotFoundException('Not found');
+    if (!foundCategoryByOwner) throw new NotFoundException('Not found');
 
-    return found;
+    // Return selected category
+    return foundCategoryByOwner;
   }
 
   async update(
@@ -61,6 +65,7 @@ export class CategoriesService {
     updateCategoryDto: UpdateCategoryDto,
     user: IAuthPayload,
   ) {
+    // Test if user has a category with the title sent
     const found = await this.categoryRepository.findOneBy({
       title: updateCategoryDto.title,
       user: { id: user.sub },
@@ -68,6 +73,7 @@ export class CategoriesService {
 
     if (found) throw new ConflictException('Category already exists');
 
+    // Select the category to change
     const category = await this.categoryRepository.findOneBy({
       id: id,
       user: { id: user.sub },
@@ -75,20 +81,25 @@ export class CategoriesService {
 
     if (!category) throw new NotFoundException('Not Found');
 
+    // Change the category with new data
     this.categoryRepository.merge(category, updateCategoryDto);
 
+    // Return the altered category
     return await this.categoryRepository.save(category);
   }
 
   async remove(id: number) {
+    // Select the category to delete
     const category = await this.categoryRepository.findOneBy({
       id: id,
     });
 
     if (!category) throw new NotFoundException('Not Found');
 
+    // Remove the selected category
     await this.categoryRepository.remove(category);
 
+    // Send message to user
     return { message: 'Category deleted successfully' };
   }
 }

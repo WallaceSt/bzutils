@@ -32,6 +32,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, username, password } = createUserDto;
 
+    // Verify if username and email is already in use
     const userExists = await this.userRepository.findOne({
       where: [{ email }, { username }],
     });
@@ -40,13 +41,16 @@ export class UsersService {
       throw new ConflictException('Username or email is already in use.');
     }
 
+    // Hashes password
     const hashedPassword = await bcrypt.hash(password, this.saltRounds);
 
+    // Create the new user
     const newUser = this.userRepository.create({
       ...createUserDto,
       password: hashedPassword,
     });
 
+    // Returns the new user
     return await this.userRepository.save(newUser);
   }
 
@@ -56,6 +60,7 @@ export class UsersService {
    * @returns A list of Users
    */
   async findAll(): Promise<User[]> {
+    // Returns all the users
     return await this.userRepository.find();
   }
 
@@ -66,12 +71,14 @@ export class UsersService {
    * @returns the found user or an error
    */
   async findOne(id: number): Promise<User> {
+    // Selects the user
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException();
     }
 
+    // Returns the user
     return user;
   }
 
@@ -85,15 +92,19 @@ export class UsersService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { password, ...rest } = updateUserDto;
 
+    // Selects the user
     const user = await this.findOne(id);
 
+    // Creates updated data
     const updatedData = { ...rest };
 
+    // Hashes password, if needed
     if (password) {
       const hashedPassword = await bcrypt.hash(password, this.saltRounds);
       updatedData['password'] = hashedPassword;
     }
 
+    // Saves and returns the updated user
     this.userRepository.merge(user, updatedData);
     return await this.userRepository.save(user);
   }
@@ -104,8 +115,16 @@ export class UsersService {
    * @param id the id if the user to delete
    */
   async remove(id: number) {
+    // Select user
     const user = await this.findOne(id);
+
+    // Removes the user
     await this.userRepository.remove(user);
+
+    // Return success message
+    return {
+      message: 'User deleted successfully',
+    };
   }
 
   /**
@@ -115,6 +134,7 @@ export class UsersService {
    * @returns the found user
    */
   async findByUsernameAndSelectPassword(username: string): Promise<User> {
+    // Search user and select its password
     const user = await this.userRepository.findOne({
       where: { username },
       select: ['id', 'username', 'password', 'role'],
@@ -122,6 +142,7 @@ export class UsersService {
 
     if (!user) throw new UnauthorizedException();
 
+    // Returns the found user
     return user;
   }
 }

@@ -19,11 +19,13 @@ export class AuthGuard implements CanActivate {
    * @returns true if the token is valid
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // Read token
     const request: Request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
     if (!token) throw new UnauthorizedException('Not authorized');
 
+    // Validate token
     try {
       const payload: IAuthPayload = await this.jwtService.verifyAsync(token);
 
@@ -31,6 +33,8 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException('Not authorized');
     }
+
+    // Authorize
     return true;
   }
 
