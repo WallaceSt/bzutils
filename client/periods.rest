@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/periods
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODI0Njc3NiwiZXhwIjoxNzY4MjUwMzc2fQ.iIi0Mj3j5nyZOHPmqqjnGVuHEmh5-cGhcMwKRtm7_9w
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoid2FsbFN0Iiwicm9sZSI6ImZyb250ZGVzayIsImlhdCI6MTc2ODI1NTg3MywiZXhwIjoxNzY4MjU5NDczfQ.GkFMlykdkKsCsXFLmMw-jawKd7j0YE53Z1O-gGJ3AEU
 
 
 
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 
 ### Reads a period
 
-GET {{baseUrl}}/3
+GET {{baseUrl}}/6
 Authorization: Bearer {{token}}
 
 

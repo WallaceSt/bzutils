@@ -64,15 +64,33 @@ export class PeriodsService {
 
   async findOne(id: number, user: IAuthPayload) {
     // Verify if period exists for the signed user
-    const found = await this.periodRepository.findOneBy({
-      id: id,
-      user: { id: user.sub },
-    });
+    const found = await this.periodRepository
+      .createQueryBuilder('period')
+      .leftJoinAndSelect('period.prices', 'price')
+      .leftJoinAndSelect('price.product', 'product')
+      .where('period.id = :id', { id })
+      .andWhere('period.user = :user', { user: user.sub })
+      .select([
+        'period.validFrom',
+        'period.validTo',
+        'price.currency',
+        'product.name',
+        'product.package',
+      ])
+      .orderBy('product.name', 'ASC')
+      .getOne();
 
     if (!found) throw new NotFoundException('Not found');
 
     // Return the period
-    return found;
+    return {
+      validFrom: found.validFrom,
+      validTo: found.validTo,
+      products: found.prices.map((p) => ({
+        ...p.product,
+        currency: p.currency,
+      })),
+    };
   }
 
   async update(
