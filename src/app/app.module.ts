@@ -11,6 +11,8 @@ import { Product } from 'src/products/entities/product.entity';
 import { ProductsModule } from 'src/products/products.module';
 import { Period } from 'src/periods/entities/period.entity';
 import { PeriodsModule } from 'src/periods/periods.module';
+import { Price } from 'src/prices/entities/price.entity';
+import { PricesModule } from 'src/prices/prices.module';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { PeriodsModule } from 'src/periods/periods.module';
       username: 'user',
       password: 'user',
       database: 'bzutils',
-      entities: [User, Category, Product, Period],
+      entities: [User, Category, Product, Period, Price],
       synchronize: true, // shoud not be used in production
     }),
     UsersModule,
@@ -29,6 +31,7 @@ import { PeriodsModule } from 'src/periods/periods.module';
     CategoriesModule,
     ProductsModule,
     PeriodsModule,
+    PricesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

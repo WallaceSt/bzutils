@@ -7,10 +7,12 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['title', 'user'])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;

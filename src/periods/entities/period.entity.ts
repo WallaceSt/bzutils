@@ -1,14 +1,18 @@
+import { Price } from 'src/prices/entities/price.entity';
 import { User } from 'src/users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['validFrom', 'validTo', 'user'])
 export class Period {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,4 +31,7 @@ export class Period {
 
   @ManyToOne(() => User, (user) => user.periods)
   user: User;
+
+  @OneToMany(() => Price, (price) => price.period)
+  prices: Price[];
 }
