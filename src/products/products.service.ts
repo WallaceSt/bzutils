@@ -54,20 +54,27 @@ export class ProductsService {
 
   async findAll(user: IAuthPayload) {
     // Return all product for signed user
-    return await this.productRepository.find({
-      where: {
-        user: { id: user.sub },
-      },
-      order: { category: { title: 'ASC' }, name: 'ASC' },
-    });
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .innerJoinAndSelect('product.category', 'category')
+      .where('product.user = :user', { user: user.sub })
+      .select([
+        'product.id',
+        'product.name',
+        'product.package',
+        'category.title',
+      ])
+      .orderBy('product.name', 'ASC')
+      .getMany();
   }
 
   async findOne(id: number, user: IAuthPayload) {
     // Verify if product exists and is owned by signed user
-    const found = await this.productRepository.findOneBy({
-      id: id,
-      user: { id: user.sub },
-    });
+    const found = await this.productRepository
+      .createQueryBuilder('product')
+      .where('product.user = :user', { user: user.sub })
+      .andWhere('product.id = :id', { id })
+      .getOne();
 
     if (!found) throw new NotFoundException('Not found');
 

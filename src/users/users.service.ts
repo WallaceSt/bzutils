@@ -33,9 +33,11 @@ export class UsersService {
     const { email, username, password } = createUserDto;
 
     // Verify if username and email is already in use
-    const userExists = await this.userRepository.findOne({
-      where: [{ email }, { username }],
-    });
+    const userExists = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .andWhere('user.username = :username', { username })
+      .getOne();
 
     if (userExists) {
       throw new ConflictException('Username or email is already in use.');

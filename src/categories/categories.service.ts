@@ -39,20 +39,21 @@ export class CategoriesService {
 
   async findAll(user: IAuthPayload) {
     // Returns signed user categories
-    return await this.categoryRepository.find({
-      where: {
-        user: { id: user.sub },
-      },
-      order: { title: 'ASC' },
-    });
+    return await this.categoryRepository
+      .createQueryBuilder('category')
+      .where('category.user = :user', { user: user.sub })
+      .orderBy('category.title', 'ASC')
+      .getMany();
   }
 
   async findOne(id: number, user: IAuthPayload) {
     // Test the category and its owner
-    const foundCategoryByOwner = await this.categoryRepository.findOneBy({
-      id: id,
-      user: { id: user.sub },
-    });
+    const foundCategoryByOwner = await this.categoryRepository
+      .createQueryBuilder('category')
+      .where('category.user = :user', { user: user.sub })
+      .andWhere('category.id = :id', { id })
+      .orderBy('category.title', 'ASC')
+      .getOne();
 
     if (!foundCategoryByOwner) throw new NotFoundException('Not found');
 

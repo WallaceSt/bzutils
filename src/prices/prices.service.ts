@@ -67,27 +67,18 @@ export class PricesService {
 
   async findAll(user: IAuthPayload) {
     // Find all the prices for the signed user
-    return await this.priceRepository.find({
-      where: {
-        product: { user: { id: user.sub } },
-      },
-      select: {
-        id: true,
-        currency: true,
-        product: {
-          name: true,
-          package: true,
-        },
-        period: {
-          validFrom: true,
-          validTo: true,
-        },
-      },
-      relations: {
-        product: true,
-        period: true,
-      },
-    });
+    return await this.priceRepository
+      .createQueryBuilder('price')
+      .innerJoin('price.product', 'product')
+      .innerJoin('price.period', 'period')
+      .where('product.user = :user', { user: user.sub })
+      .select([
+        'price.currency',
+        'product.name',
+        'period.validFrom',
+        'period.validTo',
+      ])
+      .getMany();
   }
 
   async findOne(id: number, user: IAuthPayload) {
